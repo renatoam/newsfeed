@@ -1,10 +1,11 @@
-import { AxiosError } from "axios";
-import axios from "../configs/axios";
-import { BBCApiResponseDTO } from "./bbcapi.dto";
+import 'server-only'
 
-export default async function bbcApiGateway(): Promise<BBCApiResponseDTO> {
+import { AxiosError } from "axios";
+import axios from '@/core/configs/axios';
+
+export default async function bbcApiGateway<Response>(endpoint: string): Promise<Response> {
   try {
-    const response = await axios.get<BBCApiResponseDTO>('/news?lang=english')
+    const response = await axios.get<Response>(process.env.BBC_RAPIDAPI_HOST + endpoint)
     return response.data
   } catch (error) {
     const axiosError = error as AxiosError
