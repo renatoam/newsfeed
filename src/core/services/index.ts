@@ -1,0 +1,5 @@
+export { default as categoriesApiService } from './shared/categories.service'
+export { default as sourcesApiService } from './shared/sources.service'
+export { default as newsApiService } from './newsApi/newsapi.service'
+export { default as bbcApiService } from './bbc/bbcapi.service'
+export { default as theGuardianApiService } from './theGuardian/theGuardian.service'
