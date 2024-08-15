@@ -13,7 +13,7 @@ export type SearchDTO = Partial<{
 
 export type RequestDTO = {
   search: SearchDTO
-  filter: FilterDTO
+  filter?: FilterDTO
 }
 
 export type ServiceResponse<Data> = {
