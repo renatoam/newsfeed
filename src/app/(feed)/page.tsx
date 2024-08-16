@@ -1,14 +1,17 @@
-import { QueryProvider, SkeletonList } from "@/components";
-import { FeedDivider, FeedHero, FeedList, FeedTitle, FeedWrapper } from "./fragments";
-import { Suspense } from "react";
+import { QueryProvider } from "@/components";
+import {
+  FeedDivider,
+  FeedHero,
+  FeedList,
+  FeedTitle,
+  FeedWrapper
+} from "./fragments";
 
 export default async function Home() {
   return (
     <FeedWrapper>
       <FeedTitle />
-      <Suspense fallback={<SkeletonList count={2} />}>
-        <FeedHero />
-      </Suspense>
+      <FeedHero />
       <FeedDivider />
       <QueryProvider>
         <FeedList />

@@ -1,36 +1,32 @@
-import { Card } from "@/components";
-import { getNews } from "@/core/actions";
+"use client"
 
-export default async function FeedHero() {
-  const response = await getNews({ search: { searchTerm: 'football', page: 1, pageSize: 2 } })
+import { Card, SkeletonList } from "@/components";
+import useFeed from "../Feed.hooks";
+
+export default function FeedHero() {
+  const { data, isLoading, isError } = useFeed()
+
+  if (isLoading) return <SkeletonList count={2} />
+  if (isError || !data) return <p>Something went wrong...</p>
+
   return (
     <section className="flex flex-wrap lg:flex-nowrap gap-4">
-      <Card
-        categories={[response[0].category ?? '']}
-        description={response[0].description}
-        image={{
-          src: response[0].image,
-          alt: response[0].title,
-          width: 400,
-          height: 400
-        }}
-        title={response[0].title}
-        badge="Breaking"
-        size="wide"
-      />
-      <Card
-        categories={[response[1].category ?? '']}
-        description={response[1].description}
-        image={{
-          src: response[1].image,
-          alt: response[1].title,
-          width: 400,
-          height: 400
-        }}
-        title={response[1].title}
-        badge="Breaking"
-        size="wide"
-      />
+      {data.map(article => (
+        <Card
+          key={article.title}
+          categories={[article.category ?? '']}
+          description={article.description}
+          image={{
+            src: article.image,
+            alt: article.title,
+            width: 400,
+            height: 400
+          }}
+          title={article.title}
+          badge="Breaking"
+          size="wide"
+        />
+      ))}
     </section>
   );
 }
