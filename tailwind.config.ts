@@ -10,7 +10,7 @@ const config: Config = {
   theme: {
     container: {
       center: true,
-      padding: '0 2rem'
+      padding: '2rem'
     }
   },
   plugins: [typography, daisyui],
