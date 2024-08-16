@@ -1,7 +1,14 @@
-export default function Search() {
+import { ComponentPropsWithoutRef } from "react";
+
+export default function Search(props: ComponentPropsWithoutRef<"input">) {
   return (
     <label className="input input-bordered flex items-center gap-2">
-      <input type="text" className="grow" placeholder="Search" />
+      <input
+        type="text"
+        className="grow"
+        placeholder="Search"
+        {...props}
+      />
       <svg
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 16 16"

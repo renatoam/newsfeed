@@ -1,20 +1,14 @@
 "use client"
 
-import CardList from "@/components/CardList/CardList.root";
-import SkeletonList from "@/components/SkeletonList/SkeletonList.root";
-import { getNews } from "@/core/actions";
-import { useQuery } from "@tanstack/react-query";
+import { CardList, NoResults, ResultError, SkeletonList } from "@/components";
+import { useFeedList } from "../Feed.hooks";
 
 export default function FeedList() {
-  const { data, isLoading, isError } = useQuery({
-    queryKey: ['feed'],
-    queryFn: async () => await getNews({
-      search: { searchTerm: 'business' }
-    })
-  })
+  const { data, isLoading, isError } = useFeedList()
 
   if (isLoading) return <SkeletonList />
-  if (isError || !data) return <p>Something wrong...</p>
+  if (isError) return <ResultError />
+  if (!data) return <NoResults />
 
   return (
     <section className="grid grid-cols-[repeat(auto-fill,minmax(min(100%,384px),1fr))] gap-4 my-8 justify-items-center">
