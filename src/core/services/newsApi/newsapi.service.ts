@@ -7,7 +7,7 @@ export default async function newsApiService(
   dto: RequestDTO
 ): Promise<ServiceResponse<NewsAPIResponseDTO['articles']>> {
   const filters = makeFilters(dto)
-  const endpoint = `/v2/everything?${filters}`
+  const endpoint = `/everything?${filters}`
 
   if (!dto.search.searchTerm) {
     return {
@@ -16,7 +16,7 @@ export default async function newsApiService(
     }
   }
 
-  if (dto.filter.category) {
+  if (dto.filter?.category) {
     return {
       status: 'skipped',
       data: []
@@ -25,7 +25,7 @@ export default async function newsApiService(
   
   try {
     const response = await newsApiGateway<NewsAPIResponseDTO>(endpoint)
-    const filtered = filterByAuthor(response, dto.filter.author)
+    const filtered = filterByAuthor(response, dto.filter?.author)
 
     if (filtered.length === 0) {
       return {

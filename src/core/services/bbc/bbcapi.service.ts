@@ -1,10 +1,11 @@
-import { RequestDTO, ServiceResponse } from "../shared/dto";
+import { applyPagination, Pagination } from "@/core/application/application.service";
+import { FilterDTO, RequestDTO, ServiceResponse } from "../shared/dto";
 import { BBCApiResponseDTO, News } from "./bbcapi.dto";
 import bbcApiGateway from "./bbcapi.gateway";
-import { filterByCategory, filterByTerm, handlePagination } from "./bbcapi.utils";
+import { filterByCategory, filterByTerm } from "./bbcapi.utils";
 
 export default async function bbcApiService(dto: RequestDTO): Promise<ServiceResponse<News[]>> {
-  const { category, source, ...rest } = dto.filter
+  const { category, source, ...rest } = dto.filter = {} as FilterDTO
   const { searchTerm, ...pagination } = dto.search
   const endpoint = '/news?lang=english'
   const sourceIsNotBBC = source && !source.includes('bbc')
@@ -27,7 +28,7 @@ export default async function bbcApiService(dto: RequestDTO): Promise<ServiceRes
     const response = await bbcApiGateway<BBCApiResponseDTO>(endpoint)
     const filteredByCategory = filterByCategory(response, category)
     const filteredByTerm = filterByTerm(filteredByCategory, searchTerm)
-    const paginated = handlePagination(filteredByTerm, pagination)
+    const paginated = applyPagination<News>(filteredByTerm, pagination as Pagination)
     
     return {
       status: 'success',
