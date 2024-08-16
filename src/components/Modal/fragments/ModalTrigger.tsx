@@ -1,11 +1,16 @@
 "use client"
 
-import { useCallback } from "react"
-import { ComponentProps } from "react"
+import { ComponentProps, useCallback } from "react"
 
-type CustomModalProps = ComponentProps<"dialog"> & { showModal: Function }
+type CustomModalProps = ComponentProps<"dialog"> & {
+  showModal: Function
+}
 
-export default function ModalTrigger() {
+type ModalTriggerProps = {
+  triggerText: string
+}
+
+export default function ModalTrigger({ triggerText }: ModalTriggerProps) {
   const openModal = useCallback(() => {
     const isClientCodeActive = typeof window !== "undefined" && typeof document !== "undefined"
     if (isClientCodeActive) {
@@ -15,6 +20,6 @@ export default function ModalTrigger() {
   }, [])
 
   return (
-    <button type="button" className="btn" onClick={openModal}>open modal</button>
+    <button type="button" className="btn" onClick={openModal}>{triggerText}</button>
   )
 }
