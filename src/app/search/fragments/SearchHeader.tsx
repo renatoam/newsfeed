@@ -1,7 +1,7 @@
 "use client"
 
 import { Search } from "@/components";
-import { useSearch } from "./SearchContext";
+import { useSearch } from "../Search.hooks";
 
 export default function SearchHeader() {
   const { handleSearch } = useSearch()

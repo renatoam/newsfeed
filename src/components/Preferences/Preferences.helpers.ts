@@ -12,12 +12,3 @@ export function setPreferences(event: MouseEvent<HTMLButtonElement>) {
   localStorage.setItem('selectedCategory', selectedCategory)
   localStorage.setItem('selectedSource', selectedSource)
 }
-
-export function createPreferenceOptions(lists: ServiceResponse<string[]>[]) {
-  return lists.map(list => {
-    if (list.status === "success") {
-      return Array.from(new Set(list.data))
-    }
-    return []
-  })
-}

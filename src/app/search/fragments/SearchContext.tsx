@@ -1,6 +1,7 @@
 import { ChangeEvent, createContext, PropsWithChildren, useCallback, useContext, useMemo, useState } from "react";
 import { getNews } from "@/core/actions";
 import { useQuery } from "@tanstack/react-query";
+import { useFavoriteCategory, useFetchCategories, useFetchNews, useFetchSources } from "../Search.hooks";
 
 type SearchContextProps = {
   searchTerm: string,
@@ -18,27 +19,13 @@ export const SearchContext = createContext<SearchContextProps>({
   data: []
 })
 
-export const useSearch = () => useContext(SearchContext)
-
 let timeout: NodeJS.Timeout
 const DEBOUNCE_DELAY = 1000
 
 export const SearchContextProvider = ({ children }: PropsWithChildren) => {
-  const isClientEnvironment = typeof window !== undefined && typeof document !== "undefined"
-  let selectedCategory = 'football'
-  
-  if (isClientEnvironment) {
-    selectedCategory = localStorage.getItem('selectedCategory') ?? selectedCategory
-  }
-  
-  const [searchTerm, setSearchTerm] = useState(selectedCategory)
-  const { data, isLoading, isError } = useQuery({
-    queryKey: ['search', searchTerm],
-    queryFn: async () => await getNews({
-      search: { searchTerm }
-    }),
-    enabled: !!searchTerm,
-  })
+  const favoriteCategory = useFavoriteCategory()
+  const [searchTerm, setSearchTerm] = useState(favoriteCategory)
+  const { data, isLoading, isError } = useFetchNews(searchTerm)
 
   const handleSearch = useCallback((event: ChangeEvent<HTMLInputElement>) => {
     clearTimeout(timeout)
