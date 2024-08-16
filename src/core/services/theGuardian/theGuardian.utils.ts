@@ -1,7 +1,7 @@
-import { RequestDTO } from "../shared/dto"
+import { FilterDTO, RequestDTO } from "../shared/dto"
 
 export function makeFilters(dto: RequestDTO) {
-  const { category, date } = dto.filter
+  const { category, date } = dto.filter = {} as FilterDTO
   const { searchTerm, page, pageSize } = dto.search
   const today = new Date().toISOString().split('T')[0]
 

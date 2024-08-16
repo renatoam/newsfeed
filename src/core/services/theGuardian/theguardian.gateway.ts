@@ -5,8 +5,8 @@ import axios from '@/core/configs/axios';
 
 export default async function theGuardianApiGateway<Response>(endpoint: string): Promise<Response> {
   try {
-    const response = await axios.get(process.env.THEGUARDIAN_HOST + endpoint)
-    return response.data
+    const response = await axios.get(process.env.THEGUARDIAN_HOST + endpoint + `&api-key=${process.env.THEGUARDIAN_APIKEY}`)
+    return response.data.response
   } catch (error) {
     const axiosError = error as AxiosError
     if (axiosError.request) {

@@ -1,4 +1,4 @@
-import { RequestDTO } from "../shared/dto"
+import { FilterDTO, RequestDTO } from "../shared/dto"
 import { NewsAPIResponseDTO } from "./newsapi.dto"
 
 export function makeFilters(dto: RequestDTO): string {
@@ -9,9 +9,9 @@ export function makeFilters(dto: RequestDTO): string {
   } = dto.search
 
   const {
-    source,
-    date
-  } = dto.filter
+    source = '',
+    date = ''
+  } = dto.filter = {} as FilterDTO
   
   const today = new Date().toISOString().split('T')[0]
   
@@ -21,8 +21,8 @@ export function makeFilters(dto: RequestDTO): string {
     pageSize ? `&pageSize=${pageSize}` : '',
     date ? `&from=${date}&to=${today}` : '',
     source ? `&sources=${source}` : '',
-    'searchIn=title',
-    'language=en',
+    '&searchIn=title',
+    '&language=en',
   ]
 
   return filters.join('')

@@ -16,7 +16,7 @@ export default async function sourcesApiService(): Promise<ServiceResponse<strin
 
     return {
       status: 'success',
-      data: response.sources.map(source => source.name)
+      data: [...response.sources.map(source => source.name), 'BBC', 'The Guardian']
     }
   } catch (err) {
     const error = err as Error
