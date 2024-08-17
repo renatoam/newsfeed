@@ -1,8 +1,22 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
-
 ## Getting Started
 
-First, run the development server:
+First, get your API keys for the APIs used in the project:
+
+### News API
+
+https://newsapi.org/docs/endpoints/everything
+
+### The Guardian API
+
+https://open-platform.theguardian.com/documentation/
+
+### BBC Rapid API
+
+https://rapidapi.com/ms8460149-lYlBpL67hTF/api/bbc-world-news-api
+
+## Running
+
+Then, run the development server:
 
 ```bash
 npm run dev
