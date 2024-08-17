@@ -1,5 +1,6 @@
 export { default as Card } from "./Card/Card.root"
 export { default as CardList } from "./CardList/CardList.root"
+export { default as Drawer } from "./Drawer/Drawer.root"
 export { default as Dropdown } from "./Dropdown/Dropdown.root"
 export { default as Input } from "./Input/Input.root"
 export { default as Modal } from "./Modal/Modal.root"

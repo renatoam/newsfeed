@@ -26,7 +26,7 @@ export default function SearchFilterList(props: SearchFilterListProps) {
 
   const form = useFormReset(activeFilter)
 
-  if (!isLoading) return <SkeletonFilter />
+  if (isLoading) return <SkeletonFilter />
   if (isError) return <ResultError />
 
   return (
