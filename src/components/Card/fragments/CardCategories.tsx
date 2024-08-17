@@ -5,7 +5,9 @@ export default function CardCategories() {
   return (
     <>
       {categories.map(category => (
-        <div key={category} className="badge badge-outline">{category}</div>
+        <div key={category} className="tooltip" data-tip={category}>
+          <div className="badge badge-outline line-clamp-1">{category}</div>
+        </div>
       ))}
     </>
   );

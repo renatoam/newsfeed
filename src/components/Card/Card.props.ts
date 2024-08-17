@@ -1,10 +1,10 @@
-import Image from "next/image"
-import { ComponentPropsWithoutRef, MouseEventHandler, PropsWithChildren } from "react"
+import { ImageProps } from "next/image"
+import { MouseEventHandler, PropsWithChildren } from "react"
 
 export type Size = 'default' | 'wide'
 export type CardProps = {
   size?: Size
-  image?: ComponentPropsWithoutRef<typeof Image>
+  image?: ImageProps
   title: string
   badge?: string
   description: string

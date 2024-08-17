@@ -38,19 +38,22 @@ export function useFetchNews(searchParams: Pick<SearchDTO, "searchTerm"> & Filte
       filter
     }),
     enabled: Object.values(searchParams).some(param => !!param),
+    retry: 3
   })
 }
 
 export function useFetchCategories() {
   return useQuery({
     queryKey: ['categories'],
-    queryFn: async () => await getCategories()
+    queryFn: async () => await getCategories(),
+    retry: 3
   })
 }
 
 export function useFetchSources() {
   return useQuery({
     queryKey: ['sources'],
-    queryFn: async () => await getSources()
+    queryFn: async () => await getSources(),
+    retry: 3
   })
 }

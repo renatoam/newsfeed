@@ -1,4 +1,4 @@
-import { ResultError, SkeletonList } from "@/components"
+import { ResultError, SkeletonFilter } from "@/components"
 import { useFormReset } from "../Search.hooks"
 
 type SearchFilterListProps = {
@@ -26,7 +26,7 @@ export default function SearchFilterList(props: SearchFilterListProps) {
 
   const form = useFormReset(activeFilter)
 
-  if (isLoading) return <SkeletonList />
+  if (!isLoading) return <SkeletonFilter />
   if (isError) return <ResultError />
 
   return (

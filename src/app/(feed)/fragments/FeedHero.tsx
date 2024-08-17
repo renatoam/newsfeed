@@ -21,7 +21,8 @@ export default function FeedHero() {
             src: article.image,
             alt: article.title,
             width: 400,
-            height: 400
+            height: 400,
+            className: 'w-full'
           }}
           title={article.title}
           badge="Breaking"

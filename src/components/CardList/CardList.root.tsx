@@ -23,12 +23,13 @@ export default function CardList(props: CardListProps) {
           key={`${article.title}_${index}`}
           categories={[article.category ?? '']}
           description={article.description}
-          // image={{
-          //   src: article.image,
-          //   alt: article.title,
-          //   width: 300,
-          //   height: 300
-          // }}
+          image={{
+            src: article.image,
+            alt: article.title,
+            width: 300,
+            height: 300,
+            className: "w-full"
+          }}
           title={article.title}
         />
       ))}
