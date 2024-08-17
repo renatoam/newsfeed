@@ -6,19 +6,12 @@ import { makeFilters } from "./theGuardian.utils";
 export default async function theGuardianApiService(
   dto: RequestDTO
 ): Promise<ServiceResponse<TheGuardianAPIResponseDTO>> {
-  const { source, author } = dto.filter = {} as FilterDTO
-  const sourceIsNotTheGuardian = source && !source.includes('guardian')
+  const { source } = dto.filter as FilterDTO
+  const sourceIsNotTheGuardian = source && !source.toLowerCase().includes('guardian')
   const filters = makeFilters(dto)
   const endpoint = `/search?${filters}`
 
-  if (!dto.search.searchTerm) {
-    return {
-      status: 'error',
-      message: 'Search term is required.'
-    }
-  }
-
-  if (author || sourceIsNotTheGuardian) {
+  if (sourceIsNotTheGuardian) {
     return {
       status: 'skipped',
       data: []

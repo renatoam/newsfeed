@@ -1,12 +1,12 @@
 import { FilterDTO, RequestDTO } from "../shared/dto"
 
 export function makeFilters(dto: RequestDTO) {
-  const { category, date } = dto.filter = {} as FilterDTO
+  const { category, date, author } = dto.filter as FilterDTO
   const { searchTerm, page, pageSize } = dto.search
   const today = new Date().toISOString().split('T')[0]
 
   const filters = [
-    searchTerm ? `q=${searchTerm}` : '',
+    `q=${searchTerm ?? category ?? author}`,
     '&lang=en',
     category ? `&tag=${category}` : '',
     page ? `&page=${page}` : '',

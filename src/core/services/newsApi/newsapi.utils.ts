@@ -10,13 +10,15 @@ export function makeFilters(dto: RequestDTO): string {
 
   const {
     source = '',
-    date = ''
-  } = dto.filter = {} as FilterDTO
+    date = '',
+    category,
+    author
+  } = dto.filter as FilterDTO
   
   const today = new Date().toISOString().split('T')[0]
   
   const filters = [
-    `q=${searchTerm}`,
+    `q=${searchTerm ?? category ?? author}`,
     page ? `&page=${page}` : '',
     pageSize ? `&pageSize=${pageSize}` : '',
     date ? `&from=${date}&to=${today}` : '',

@@ -6,7 +6,7 @@ export default function SearchWrapper({ children }: PropsWithChildren) {
   return (
     <QueryProvider>
       <SearchContextProvider>
-        <article className="container my-8 w-full lg:w-[1280px]">
+        <article className="container my-8 w-full lg:w-[1360px]">
           {children}
         </article>
       </SearchContextProvider>

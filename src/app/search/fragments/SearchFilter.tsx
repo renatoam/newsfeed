@@ -1,8 +1,9 @@
 import { extractCategoriesAndSources } from "@/shared/helpers";
-import { useFetchCategories, useFetchSources } from "../Search.hooks";
-import { NoResults, ResultError, SkeletonList } from "@/components";
+import { useFetchCategories, useFetchSources, useSearch } from "../Search.hooks";
+import SearchFilterList from "./SearchFilterList";
 
 export default function SearchFilters() {
+  const { setCategoryFilter, setSourceFilter, activeFilter } = useSearch()
   const {
     data: categoriesList,
     isLoading: fetchCategoriesLoading,
@@ -13,9 +14,6 @@ export default function SearchFilters() {
     isLoading: fetchSourcesLoading,
     isError: fetchSourcesError
   } = useFetchSources()
-
-  if (fetchCategoriesError && fetchSourcesError) return <ResultError />
-  if (!categoriesList && !sourcesList) return <NoResults />
   
   const [categories, sources] = extractCategoriesAndSources([categoriesList!, sourcesList!])
 
@@ -24,53 +22,29 @@ export default function SearchFilters() {
       <h3>Filters</h3>
       <section id="categories">
         <h4>Categories</h4>
-        {fetchCategoriesLoading ? <SkeletonList /> :
-        fetchCategoriesError ? <ResultError /> : (
-          <section>
-          {categories.map((category, index) => (
-            <div key={`category-${index}`} className="flex gap-4">
-              <div>
-                <label
-                  className="sr-only"
-                  htmlFor={`category-${index}`}>Category {index}</label>
-                <input
-                  type="radio"
-                  id={`category-${index}`}
-                  name={`category-${index}`}
-                  className="radio radio-accent"
-                  defaultChecked={index === 0}
-                />
-              </div>
-              <div>{category}</div>
-            </div>
-          ))}
-        </section>
-        )}
+        <SearchFilterList
+          id="category"
+          isError={fetchCategoriesError}
+          isLoading={fetchCategoriesLoading}
+          label="Category"
+          visibleList={categories.slice(0, 8)}
+          remainingList={categories.slice(8)}
+          handleChange={setCategoryFilter}
+          activeFilter={activeFilter}
+        />
       </section>
       <section id="sources">
         <h4>Sources</h4>
-        {fetchSourcesLoading ? <SkeletonList /> :
-        fetchSourcesError ? <ResultError /> : (
-          <section>
-          {sources.map((source, index) => (
-            <div key={`source-${index}`} className="flex gap-4">
-              <div>
-                <label
-                  className="sr-only"
-                  htmlFor={`source-${index}`}>Source {index}</label>
-                <input
-                  type="radio"
-                  id={`source-${index}`}
-                  name={`source-${index}`}
-                  className="radio radio-accent"
-                  defaultChecked={index === 0}
-                />
-              </div>
-              <div>{source}</div>
-            </div>
-          ))}
-        </section>
-        )}
+        <SearchFilterList
+          id="source"
+          isError={fetchSourcesError}
+          isLoading={fetchSourcesLoading}
+          label="Source"
+          visibleList={sources.slice(0, 8)}
+          remainingList={sources.slice(8)}
+          handleChange={setSourceFilter}
+          activeFilter={activeFilter}  
+        />
       </section>
     </aside>
   );

@@ -5,17 +5,10 @@ import bbcApiGateway from "./bbcapi.gateway";
 import { filterByCategory, filterByTerm } from "./bbcapi.utils";
 
 export default async function bbcApiService(dto: RequestDTO): Promise<ServiceResponse<News[]>> {
-  const { category, source, ...rest } = dto.filter = {} as FilterDTO
+  const { category, source, ...rest } = dto.filter as FilterDTO
   const { searchTerm, ...pagination } = dto.search
   const endpoint = '/news?lang=english'
-  const sourceIsNotBBC = source && !source.includes('bbc')
-
-  if (!searchTerm) {
-    return {
-      status: 'error',
-      message: 'Search term is required.'
-    }
-  }
+  const sourceIsNotBBC = source && !source.toLowerCase().includes('bbc')
 
   if (Object.values(rest).some(v => !!v) || sourceIsNotBBC) {
     return {

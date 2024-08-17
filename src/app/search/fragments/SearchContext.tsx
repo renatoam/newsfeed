@@ -1,7 +1,5 @@
-import { ChangeEvent, createContext, PropsWithChildren, useCallback, useContext, useMemo, useState } from "react";
-import { getNews } from "@/core/actions";
-import { useQuery } from "@tanstack/react-query";
-import { useFavoriteCategory, useFetchCategories, useFetchNews, useFetchSources } from "../Search.hooks";
+import { ChangeEvent, ChangeEventHandler, createContext, PropsWithChildren, useCallback, useMemo, useState } from "react";
+import { useFavoriteCategory, useFetchNews } from "../Search.hooks";
 
 type SearchContextProps = {
   searchTerm: string,
@@ -9,6 +7,10 @@ type SearchContextProps = {
   data?: NewsCard[],
   isLoading: boolean,
   isError: boolean
+  activeFilter: boolean
+  setCategoryFilter: (item: string) => void
+  setSourceFilter: (item: string) => void
+  setDateFilter: (item: string) => void
 }
 
 export const SearchContext = createContext<SearchContextProps>({
@@ -16,7 +18,11 @@ export const SearchContext = createContext<SearchContextProps>({
   isLoading: false,
   isError: false,
   handleSearch: () => undefined,
-  data: []
+  data: [],
+  setCategoryFilter: () => {},
+  setSourceFilter: () => {},
+  setDateFilter: () => {},
+  activeFilter: false
 })
 
 let timeout: NodeJS.Timeout
@@ -24,8 +30,42 @@ const DEBOUNCE_DELAY = 1000
 
 export const SearchContextProvider = ({ children }: PropsWithChildren) => {
   const favoriteCategory = useFavoriteCategory()
+  
   const [searchTerm, setSearchTerm] = useState(favoriteCategory)
-  const { data, isLoading, isError } = useFetchNews(searchTerm)
+  const [selectedCategory, setSelectedCategory] = useState('')
+  const [selectedSource, setSelectedSource] = useState('')
+  const [selectedDate, setSelectedDate] = useState('')
+  const [activeFilter, setActiveFilter] = useState(false)
+
+  const { data, isLoading, isError } = useFetchNews({
+    searchTerm,
+    author: '',
+    category: selectedCategory,
+    date: selectedDate,
+    source: selectedSource
+  })
+
+  const resetFilters = useCallback(() => {
+    setActiveFilter(false)
+    setSelectedCategory('')
+    setSelectedSource('')
+    setSelectedDate('')
+  }, [])
+
+  const setCategoryFilter = useCallback((category: string) => {
+    setSelectedCategory(category)
+    setActiveFilter(true)
+  }, [])
+  
+  const setSourceFilter = useCallback((source: string) => {
+    setSelectedSource(source)
+    setActiveFilter(true)
+  }, [])
+  
+  const setDateFilter = useCallback((date: string) => {
+    setSelectedDate(date)
+    setActiveFilter(true)
+  }, [])
 
   const handleSearch = useCallback((event: ChangeEvent<HTMLInputElement>) => {
     clearTimeout(timeout)
@@ -33,6 +73,7 @@ export const SearchContextProvider = ({ children }: PropsWithChildren) => {
     timeout = setTimeout(() => {
       const term = event.target.value
       setSearchTerm(term)
+      resetFilters()
     }, DEBOUNCE_DELAY)
   }, [])
 
@@ -41,13 +82,21 @@ export const SearchContextProvider = ({ children }: PropsWithChildren) => {
     handleSearch,
     data,
     isLoading,
-    isError 
+    isError,
+    activeFilter,
+    setCategoryFilter,
+    setSourceFilter,
+    setDateFilter
   }), [
     searchTerm,
     handleSearch,
     data,
     isLoading,
-    isError 
+    isError,
+    activeFilter,
+    setCategoryFilter,
+    setSourceFilter,
+    setDateFilter
   ])
 
   return (

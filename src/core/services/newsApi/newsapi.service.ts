@@ -8,20 +8,6 @@ export default async function newsApiService(
 ): Promise<ServiceResponse<NewsAPIResponseDTO['articles']>> {
   const filters = makeFilters(dto)
   const endpoint = `/everything?${filters}`
-
-  if (!dto.search.searchTerm) {
-    return {
-      status: 'error',
-      message: 'Search term is required.',
-    }
-  }
-
-  if (dto.filter?.category) {
-    return {
-      status: 'skipped',
-      data: []
-    }
-  }
   
   try {
     const response = await newsApiGateway<NewsAPIResponseDTO>(endpoint)

@@ -1,9 +1,24 @@
 import Card from "../Card/Card.root";
+import NoResults from "../NoResults/NoResults.root";
+import ResultError from "../ResultError/ResultError.root";
+import SkeletonList from "../SkeletonList/SkeletonList.root";
 
-export default function CardList(props: { data: NewsCard[] }) {
+type CardListProps = {
+  data?: NewsCard[]
+  isError: boolean
+  isLoading: boolean
+}
+
+export default function CardList(props: CardListProps) {
+  const { isLoading, isError, data } = props
+
+  if (isLoading) return <SkeletonList />
+  if (!data || data.length === 0) return <NoResults />
+  if (isError) return <ResultError />
+  
   return (
     <>
-      {props.data.slice(2).map((article, index) => (
+      {data.slice(2).map((article, index) => (
         <Card
           key={`${article.title}_${index}`}
           categories={[article.category ?? '']}

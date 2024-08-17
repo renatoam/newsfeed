@@ -1,6 +1,7 @@
 import { News } from "../services/bbc/bbcapi.dto";
 
 export default function bbcApiAdapter(articles: News[]): NewsCard[] {
+  if (!articles) return []
   return articles.map(article => ({
     description: article.summary,
     image: article.image_link ?? '',

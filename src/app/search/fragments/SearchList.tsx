@@ -1,20 +1,21 @@
 "use client"
 
-import { CardList, NoResults, ResultError, SkeletonList } from "@/components";
+import { CardList } from "@/components";
 import { useSearch } from "../Search.hooks";
 import SearchFilters from "./SearchFilter";
 
 export default function SearchList() {
   const { data, isLoading, isError } = useSearch()
-
-  if (isLoading) return <SkeletonList />
-  if (isError) return <ResultError />
-  if (!data) return <NoResults />
+  const baseClasses = 'container flex flex-wrap gap-4 [&>.card]:flex-auto [&>.card]:basis-64'
+  const flexBehavior = '[&>section]:flex [&>section]:gap-4 [&>section>div]:w-auto [&>section>div]:flex-auto [&>section>div]:basis-64'
+  const gridBehavior = isLoading ? flexBehavior : baseClasses
 
   return (
-    <article className="container grid grid-cols-[repeat(auto-fit,minmax(min(100%,350px),1fr))] gap-4">
+    <section className="container grid grid-cols-[250px,1fr]">
       <SearchFilters />
-      <CardList data={data} />
-    </article>
+      <article className={gridBehavior}>
+        <CardList {...{ data, isLoading, isError }} />
+      </article>
+    </section>
   );
 }

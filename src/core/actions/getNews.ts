@@ -7,25 +7,25 @@ import { RequestDTO } from "../services/shared/dto"
 
 export default async function getNews(dto: RequestDTO) {
   const response = await Promise.all([
+    bbcApiService(dto),
     newsApiService(dto),
     theGuardianApiService(dto),
-    bbcApiService(dto)
   ])
   
-  const newsResults = response[0].status === 'success' ? newsApiAdapter(response[0].data) : []
-  const guardianResults = response[1].status === 'success' ? theGuardianAdapter(response[1].data) : []
-  const bbcResults = response[2].status === 'success' ? bbcApiAdapter(response[2].data) : []
+  const newsResults = response[1].status === 'success' ? newsApiAdapter(response[1].data) : []
+  const guardianResults = response[2].status === 'success' ? theGuardianAdapter(response[2].data) : []
+  const bbcResults = response[0].status === 'success' ? bbcApiAdapter(response[0].data) : []
   
   const results = [
+    ...bbcResults,
     ...newsResults,
     ...guardianResults,
-    ...bbcResults
   ]
-
+  
   const paginated = applyPagination(results, {
-    page: dto.search.page ?? 1,
-    pageSize: dto.search.pageSize ?? 0
+    page: dto.search.page,
+    pageSize: dto.search.pageSize
   })
-
+  
   return paginated
 }

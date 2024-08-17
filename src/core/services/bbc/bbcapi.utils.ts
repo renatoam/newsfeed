@@ -1,4 +1,3 @@
-import { RequestDTO } from "../shared/dto";
 import { BBCApiResponseDTO, News } from "./bbcapi.dto";
 
 export function filterByCategory(data: BBCApiResponseDTO, category?: string) {
@@ -7,7 +6,13 @@ export function filterByCategory(data: BBCApiResponseDTO, category?: string) {
   for (const key in data) {
     const index = key as keyof BBCApiResponseDTO
     if (!Array.isArray(data[index])) continue
-    if (category && key !== category) break
+    if (category && key !== category) {
+      results = [
+        ...results,
+        ...data[index]
+      ]
+      break
+    }
     
     results = [
       ...results,
@@ -18,7 +23,8 @@ export function filterByCategory(data: BBCApiResponseDTO, category?: string) {
   return results
 }
 
-export function filterByTerm(data: News[], term: string) {
+export function filterByTerm(data: News[], term?: string) {
+  if (!term) return data
   return data.filter((article: News) => {
     return article?.summary?.includes(term) || article?.title?.includes(term)
   })
