@@ -1,5 +1,4 @@
 import { ResultError, SkeletonList } from "@/components"
-import { useEffect, useRef } from "react"
 import { useFormReset } from "../Search.hooks"
 
 type SearchFilterListProps = {
@@ -57,7 +56,7 @@ export default function SearchFilterList(props: SearchFilterListProps) {
         <div className="collapse-title text-center font-medium underline underline-offset-8">See more</div>
         <div className="collapse-content px-0">
           {remainingList.map((item, index) => (
-            <div key={`item-${index}`} className="flex gap-4">
+            <div key={`item-${index * 2}`} className="flex gap-4">
               <div>
                 <label
                   className="sr-only"

@@ -18,18 +18,15 @@ export default function useFeed() {
   const [selectedCategory, selectedSource] = getFavorites()
   return useQuery({
     queryKey: ['hero', selectedCategory, selectedSource],
-    queryFn: async () => {
-      return getNews({
-        search: {
-          searchTerm: selectedCategory,
-          page: 1,
-          pageSize: 2
-        },
-        filter: {
-          source: selectedSource
-        }
-      })
-    }
+    queryFn: async () => await getNews({
+      search: {
+        searchTerm: selectedCategory
+      },
+      filter: {
+        source: selectedSource
+      }
+    }),
+    select: (data) => data.slice(0, 2)
   })
 }
 

@@ -1,4 +1,3 @@
-import { QueryProvider } from "@/components";
 import {
   FeedDivider,
   FeedHero,
@@ -13,9 +12,7 @@ export default async function Home() {
       <FeedTitle />
       <FeedHero />
       <FeedDivider />
-      <QueryProvider>
-        <FeedList />
-      </QueryProvider>
+      <FeedList />
     </FeedWrapper>
   );
 }

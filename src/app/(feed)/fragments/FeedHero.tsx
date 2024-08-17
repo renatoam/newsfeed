@@ -1,13 +1,14 @@
 "use client"
 
-import { Card, SkeletonList } from "@/components";
+import { Card, NoResults, ResultError, SkeletonList } from "@/components";
 import useFeed from "../Feed.hooks";
 
 export default function FeedHero() {
   const { data, isLoading, isError } = useFeed()
 
   if (isLoading) return <SkeletonList count={2} />
-  if (isError || !data) return <p>Something went wrong...</p>
+  if (isError || !data) return <ResultError />
+  if (data.length === 0) return <NoResults />
 
   return (
     <section className="flex flex-wrap lg:flex-nowrap gap-4">
